@@ -5,7 +5,8 @@ import { loadCourses, saveCourse } from "../../redux/actions/courseActions";
 import PropTypes from "prop-types";
 import CourseForm from "./CourseForm";
 import { newCourse } from "../../../tools/mockData";
-
+import Spinner from "../common/Spinner";
+import { toast } from "react-toastify";
 const ManagedCoursePage = ({
   courses,
   authors,
@@ -17,6 +18,7 @@ const ManagedCoursePage = ({
 }) => {
   const [course, setCourse] = useState({ ...props.course });
   const [errors, setErrors] = useState({});
+  const [saving, setSaving] = useState(false);
   useEffect(() => {
     if (courses.length === 0) {
       loadCourses().catch((error) => {
@@ -31,6 +33,7 @@ const ManagedCoursePage = ({
       });
     }
   }, [props.course]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setCourse((prevCourse) => ({
@@ -41,11 +44,32 @@ const ManagedCoursePage = ({
 
   const handleSave = (event) => {
     event.preventDefault();
-    saveCourse(course).then(() => {
-      history.push("/courses");
-    });
+    if (!formisValid()) return;
+    setSaving(true);
+    saveCourse(course)
+      .then(() => {
+        toast.success("Course Saved.");
+        history.push("/courses");
+      })
+      .catch((error) => {
+        setSaving(false);
+        setErrors({ onSave: error.message });
+      });
   };
-  return (
+
+  const formisValid = () => {
+    let errors = {};
+    const { author, title, category } = course;
+    if (!title) errors.title = "Title is required";
+    if (!author) errors.title = "Author is required";
+    if (!category) errors.title = "Category is required";
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  return authors.length === 0 || courses.length === 0 ? (
+    <Spinner />
+  ) : (
     <>
       <CourseForm
         course={course}
@@ -53,6 +77,7 @@ const ManagedCoursePage = ({
         authors={authors}
         onChange={handleChange}
         onSave={handleSave}
+        saving={saving}
       />
     </>
   );
