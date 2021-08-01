@@ -79,7 +79,7 @@ const mapStateToProps = (state) => {
             };
           }),
     authors: state.authors,
-    //loading: state.apiCallsinProgress > 0,
+    loading: state.apiCallsinProgress > 0,
   };
 };
 const mapDispatchToProps = (dispatch) => {
