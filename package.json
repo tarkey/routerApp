@@ -5,7 +5,15 @@
     "start": "run-p start:dev start:api",
     "start:dev": "webpack serve  --config webpack.config.dev.js --port 3000",
     "start:api": "node tools/apiServer.js",
-    "prestart:api": "node tools/createMockDb.js"
+    "prestart:api": "node tools/createMockDb.js",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/tools/styleMock.js"
+    }
   },
   "dependencies": {
     "bootstrap": "5.0.2",
