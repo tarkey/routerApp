@@ -9,7 +9,7 @@ import fetchMock from "fetch-mock";
 import mockStore from "redux-mock-store";
 
 const middleware = [thunk];
-const mockStore = mockStore(middleware);
+const storeMock = mockStore(middleware);
 
 describe("createCourseSucces: Testing Actions", () => {
   it("create a CREATE_COURSE_ACTION_SUCCESS", () => {
@@ -39,7 +39,7 @@ describe("Async Action", () => {
         { type: types.LOAD_COURSES_SUCCESS, courses },
       ];
 
-      const store = mockStore({ courses: {} });
+      const store = storeMock({ courses: {} });
       return store.dispatch(courseActions.loadCourses()).then(() => {
         expect(store.getActions()).toBe(expectedAction);
       });
