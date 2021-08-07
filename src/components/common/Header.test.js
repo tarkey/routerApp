@@ -8,7 +8,7 @@ it("Shallow test of header", () => {
   expect(navLink).toEqual(3);
 });
 
-it("Shallow test of header", () => {
+it("Shallow test of header mount", () => {
   let navLink = mount(
     <MemoryRouter>
       <Header />

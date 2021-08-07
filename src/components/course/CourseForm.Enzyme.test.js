@@ -9,7 +9,7 @@ const rederCourseForm = (args) => {
     saving: false,
     errors: {},
     onSave: () => {},
-    onchange: () => {},
+    onChange: () => {},
   };
   const props = { ...defaultProps, ...args };
   return shallow(<CourseForm {...props} />);
